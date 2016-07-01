@@ -13,4 +13,19 @@ defmodule ComfortablyEnum do
   def map(list, func \\ fn(x) -> x end)
   def map([], _func), do: []
   def map([head | tail], func), do: [func.(head) | map(tail, func)]
+
+  @doc """
+  count - count the things
+
+      iex> ComfortablyEnum.count([])
+      0
+      iex> ComfortablyEnum.count([1,2,3,4,5])
+      5
+
+  """
+  def count(list), do: count(list, 0)
+  defp count([], count), do: count
+  defp count([_head | tail], count) do
+    count(tail, count + 1)
+  end
 end
