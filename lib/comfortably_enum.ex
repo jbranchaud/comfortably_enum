@@ -1,6 +1,6 @@
 defmodule ComfortablyEnum do
   @doc """
-  Map - do a thing to all the things
+  map - do a thing to all the things
 
     iex> ComfortablyEnum.map([1,2,3])
     [1,2,3]
