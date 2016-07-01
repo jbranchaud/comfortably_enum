@@ -17,6 +17,23 @@ defmodule ComfortablyEnum do
   def all?([head | tail], func), do: func.(head) && all?(tail, func)
 
   @doc """
+  any? - check that some of the things check out
+
+      iex> ComfortablyEnum.any?([])
+      false
+      iex> ComfortablyEnum.any?([1,2,3])
+      true
+      iex> ComfortablyEnum.any?([false,false,true])
+      true
+      iex> ComfortablyEnum.any?([1,2,3], fn(x) -> x < 0 end)
+      false
+
+  """
+  def any?(list, func \\ fn(x) -> !!x end)
+  def any?([], _func), do: false
+  def any?([head | tail], func), do: func.(head) || any?(tail, func)
+
+  @doc """
   count - count the things
 
       iex> ComfortablyEnum.count([])

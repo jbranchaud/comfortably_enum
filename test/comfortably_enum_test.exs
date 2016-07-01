@@ -11,6 +11,15 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.all?([1,2,3], fn(x) -> rem(x, 2) == 0 end) == false
   end
 
+  test "any?/2" do
+    assert ComfortablyEnum.any?([]) == false
+    assert ComfortablyEnum.any?([1,2,3]) == true
+    assert ComfortablyEnum.any?([false, nil]) == false
+    assert ComfortablyEnum.any?([false, false, true]) == true
+    assert ComfortablyEnum.any?([1,2,3], fn(x) -> x < 0 end) == false
+    assert ComfortablyEnum.any?([1,2,3], fn(x) -> rem(x, 2) == 0 end) == true
+  end
+
   test "count/1" do
     assert ComfortablyEnum.count([]) == 0
     assert ComfortablyEnum.count([1,2,3,4,5]) == 5
