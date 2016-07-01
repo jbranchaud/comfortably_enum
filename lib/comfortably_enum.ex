@@ -1,5 +1,22 @@
 defmodule ComfortablyEnum do
   @doc """
+  all? - check that all the things check out
+
+      iex> ComfortablyEnum.all?([])
+      true
+      iex> ComfortablyEnum.all?([1,2,3])
+      true
+      iex> ComfortablyEnum.all?([true,false,true])
+      false
+      iex> ComfortablyEnum.all?([1,2,3], fn(x) -> x > 0 end)
+      true
+
+  """
+  def all?(list, func \\ fn(x) -> !!x end)
+  def all?([], _func), do: true
+  def all?([head | tail], func), do: func.(head) && all?(tail, func)
+
+  @doc """
   map - do a thing to all the things
 
     iex> ComfortablyEnum.map([1,2,3])
