@@ -12,9 +12,7 @@ defmodule ComfortablyEnum do
       true
 
   """
-  def all?(list, func \\ fn(x) -> !!x end)
-  def all?([], _func), do: true
-  def all?([head | tail], func), do: func.(head) && all?(tail, func)
+  def all?(list, func \\ fn(x) -> !!x end), do: reduce(list, true, &(func.(&1) && &2))
 
   @doc """
   any? - check that some of the things check out
@@ -29,9 +27,7 @@ defmodule ComfortablyEnum do
       false
 
   """
-  def any?(list, func \\ fn(x) -> !!x end)
-  def any?([], _func), do: false
-  def any?([head | tail], func), do: func.(head) || any?(tail, func)
+  def any?(list, func \\ fn(x) -> !!x end), do: reduce(list, false, &(func.(&1) || &2))
 
   @doc """
   count - count the things
