@@ -12,7 +12,7 @@ defmodule ComfortablyEnum do
       true
 
   """
-  def all?(list, func \\ fn(x) -> !!x end), do: reduce(list, true, &(func.(&1) && &2))
+  def all?(list, func \\ &(!!&1)), do: reduce(list, true, &(func.(&1) && &2))
 
   @doc """
   any? - check that some of the things check out
@@ -27,7 +27,7 @@ defmodule ComfortablyEnum do
       false
 
   """
-  def any?(list, func \\ fn(x) -> !!x end), do: reduce(list, false, &(func.(&1) || &2))
+  def any?(list, func \\ &(!!&1)), do: reduce(list, false, &(func.(&1) || &2))
 
   @doc """
   count - count the things
