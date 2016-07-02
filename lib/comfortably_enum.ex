@@ -79,7 +79,6 @@ defmodule ComfortablyEnum do
   def reduce([], acc, _func), do: acc
   def reduce([head | tail], acc, func), do: reduce(tail, func.(head, acc), func)
 
-  @doc false
   defmodule EmptyError do
     defexception message: "empty error"
   end
