@@ -32,4 +32,23 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.map([1,2,3], fn(x) -> x * x end) == [1,4,9]
     assert ComfortablyEnum.map([1,true,"wat"], &to_string/1) == ["1", "true", "wat"]
   end
+
+  test "reduce/2" do
+    adder = fn(a, b) -> a + b end
+    appender = fn(a, b) -> b <> " - " <> a end
+
+    assert_raise ComfortablyEnum.EmptyError, "empty error", fn ->
+      ComfortablyEnum.reduce([], adder)
+    end
+    assert ComfortablyEnum.reduce([1,2,3], adder) == 6
+    assert ComfortablyEnum.reduce(["one", "two", "three"], appender) == "one - two - three"
+  end
+
+  test "reduce/3" do
+    adder = fn(a, b) -> a + b end
+
+    assert ComfortablyEnum.reduce([], 1, adder) == 1
+    assert ComfortablyEnum.reduce([1,2,3], [], fn(x, acc) -> acc ++ [x * x] end) == [1,4,9]
+    assert ComfortablyEnum.reduce([1,2,3], %{}, fn(x, acc) -> Map.put(acc, x, x + x) end) == %{1 => 2, 2 => 4, 3 => 6}
+  end
 end

@@ -62,4 +62,29 @@ defmodule ComfortablyEnum do
   def map(list, func \\ fn(x) -> x end)
   def map([], _func), do: []
   def map([head | tail], func), do: [func.(head) | map(tail, func)]
+
+  @doc """
+  reduce - accumulate the result of doing a thing to the things
+
+      iex> ComfortablyEnum.reduce([1,2,3], fn(x, acc) -> acc + x end)
+      6
+      iex> ComfortablyEnum.reduce([], fn(x, acc) -> acc + x end)
+      ** (ComfortablyEnum.EmptyError) empty error
+      iex> appender = fn(x, acc) -> acc <> " - " <> x end
+      iex> ComfortablyEnum.reduce(["one", "two", "three"], appender)
+      "one - two - three"
+      iex> ComfortablyEnum.reduce([], 1, fn(x, acc) -> acc + x end)
+      1
+      iex> ComfortablyEnum.reduce([1,2,3], %{}, fn(x, acc) -> Map.put(acc, x, x * x) end)
+      %{1 => 1, 2 => 4, 3 => 9}
+  """
+  def reduce([], _func), do: raise ComfortablyEnum.EmptyError
+  def reduce([head | tail], func), do: reduce(tail, head, func)
+  def reduce([], acc, _func), do: acc
+  def reduce([head | tail], acc, func), do: reduce(tail, func.(head, acc), func)
+
+  @doc false
+  defmodule EmptyError do
+    defexception message: "empty error"
+  end
 end
