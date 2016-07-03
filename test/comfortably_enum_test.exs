@@ -33,6 +33,14 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.count([1,2,3,4,5]) == 5
   end
 
+  test "drop/2" do
+    assert ComfortablyEnum.drop([1,2,3], 1) == [2, 3]
+    assert ComfortablyEnum.drop([1,2,3], 2) == [3]
+    assert ComfortablyEnum.drop([1,2,3], 4) == []
+    assert ComfortablyEnum.drop([1,2,3], 0) == [1,2,3]
+    assert ComfortablyEnum.drop([1,2,3], -1) == [1,2,3]
+  end
+
   test "map/2" do
     assert ComfortablyEnum.map([]) == []
     assert ComfortablyEnum.map([], fn(x) -> x * x end) == []

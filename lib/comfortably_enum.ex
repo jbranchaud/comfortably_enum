@@ -66,6 +66,21 @@ defmodule ComfortablyEnum do
   end
 
   @doc """
+  drop - drop some things from the list
+
+      iex> ComfortablyEnum.drop([1,2,3], 1)
+      [2, 3]
+      iex> ComfortablyEnum.drop([1,2,3], 2)
+      [3]
+      iex> ComfortablyEnum.drop([1,2,3], 4)
+      []
+
+  """
+  def drop([], _n), do: []
+  def drop(list, n) when n <= 0, do: list
+  def drop([_head | tail], n), do: drop(tail, n - 1)
+
+  @doc """
   map - do a thing to all the things
 
     iex> ComfortablyEnum.map([1,2,3])
