@@ -20,6 +20,14 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.any?([1,2,3], fn(x) -> rem(x, 2) == 0 end) == true
   end
 
+  test "at/2" do
+    assert ComfortablyEnum.at([], 1) == nil
+    assert ComfortablyEnum.at([1,2,3], 0) == 1
+    assert ComfortablyEnum.at([1,2,3], 5) == nil
+    assert ComfortablyEnum.at([], 1, :not_found) == :not_found
+    assert ComfortablyEnum.at([1,2,3], -1, 0) == 0
+  end
+
   test "count/1" do
     assert ComfortablyEnum.count([]) == 0
     assert ComfortablyEnum.count([1,2,3,4,5]) == 5

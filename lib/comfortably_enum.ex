@@ -34,6 +34,23 @@ defmodule ComfortablyEnum do
   def any?(list, func \\ &(!!&1)), do: reduce(list, false, &(func.(&1) || &2))
 
   @doc """
+  at - get the thing that is at the 0-based index
+
+      iex> ComfortablyEnum.at([], 1)
+      nil
+      iex> ComfortablyEnum.at([1,2,3], 0)
+      1
+      iex> ComfortablyEnum.at([1,2,3], 5)
+      nil
+      iex> ComfortablyEnum.at([], 1, :not_found)
+      :not_found
+  """
+  def at(list, index, default \\ nil)
+  def at([], _index, default), do: default
+  def at([head | _tail], 0, _default), do: head
+  def at([_head | tail], index, default), do: at(tail, index - 1, default)
+
+  @doc """
   count - count the things
 
       iex> ComfortablyEnum.count([])
