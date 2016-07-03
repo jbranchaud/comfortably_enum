@@ -1,4 +1,8 @@
 defmodule ComfortablyEnum do
+  """
+  Enumerables in Elixir
+  """
+
   @doc """
   all? - check that all the things check out
 
