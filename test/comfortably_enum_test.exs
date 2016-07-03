@@ -67,4 +67,12 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.reduce([1,2,3], [], fn(x, acc) -> acc ++ [x * x] end) == [1,4,9]
     assert ComfortablyEnum.reduce([1,2,3], %{}, fn(x, acc) -> Map.put(acc, x, x + x) end) == %{1 => 2, 2 => 4, 3 => 6}
   end
+
+  test "take/2" do
+    assert ComfortablyEnum.take([1,2,3], 1) == [1]
+    assert ComfortablyEnum.take([1,2,3], 2) == [1, 2]
+    assert ComfortablyEnum.take([1,2,3], 4) == [1, 2, 3]
+    assert ComfortablyEnum.take([1,2,3], -1) == []
+    assert ComfortablyEnum.take([1,2,3], 0) == []
+  end
 end

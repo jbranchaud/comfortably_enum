@@ -115,6 +115,21 @@ defmodule ComfortablyEnum do
   def reduce([], acc, _func), do: acc
   def reduce([head | tail], acc, func), do: reduce(tail, func.(head, acc), func)
 
+  @doc """
+  take - take some things from the list
+
+      iex> ComfortablyEnum.take([1,2,3], 1)
+      [1]
+      iex> ComfortablyEnum.take([1,2,3], 2)
+      [1, 2]
+      iex> ComfortablyEnum.take([1,2,3], 4)
+      [1, 2, 3]
+
+  """
+  def take([], _n), do: []
+  def take(_list, n) when n <= 0, do: []
+  def take([head | tail], n), do: [head | take(tail, n - 1)]
+
   defmodule EmptyError do
     defexception message: "empty error"
   end
