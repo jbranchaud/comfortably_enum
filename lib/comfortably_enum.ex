@@ -1,5 +1,5 @@
 defmodule ComfortablyEnum do
-  """
+  @moduledoc """
   Enumerables in Elixir
   """
 
