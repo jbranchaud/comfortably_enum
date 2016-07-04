@@ -28,6 +28,27 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.at([1,2,3], -1, 0) == 0
   end
 
+  test "chunk/2" do
+    assert ComfortablyEnum.chunk([1,2,3,4], 2) == [[1, 2], [3, 4]]
+    assert ComfortablyEnum.chunk([1,2,3], 4) == []
+    assert_raise FunctionClauseError, ~r/^no function clause matching/, fn ->
+      ComfortablyEnum.chunk([1,2,3], 0) == []
+    end
+  end
+
+  test "chunk/3" do
+    assert ComfortablyEnum.chunk([1,2,3,4], 2, 2) == [[1, 2], [3, 4]]
+    assert ComfortablyEnum.chunk([1,2,3], 2, 1) == [[1, 2], [2, 3]]
+    assert ComfortablyEnum.chunk([1,2,3,4,5], 3, 3) == [[1, 2, 3]]
+  end
+
+  test "chunk/4" do
+    assert ComfortablyEnum.chunk([1,2,3,4,5], 3, 3, []) == [[1, 2, 3], [4, 5]]
+    assert ComfortablyEnum.chunk([1,2,3], 4, 4, []) == [[1,2,3]]
+    assert ComfortablyEnum.chunk([1,2,3], 2, 2, [4]) == [[1, 2], [3, 4]]
+    assert ComfortablyEnum.chunk([1,2,3,4], 3, 1, [5,6]) == [[1, 2, 3], [2, 3, 4], [3, 4, 5]]
+  end
+
   test "count/1" do
     assert ComfortablyEnum.count([]) == 0
     assert ComfortablyEnum.count([1,2,3,4,5]) == 5

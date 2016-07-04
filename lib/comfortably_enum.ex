@@ -51,6 +51,39 @@ defmodule ComfortablyEnum do
   def at([_head | tail], index, default), do: at(tail, index - 1, default)
 
   @doc """
+  chunk - group the things together in sets based on count and step
+
+      iex> ComfortablyEnum.chunk([1,2,3,4], 2)
+      [[1, 2], [3, 4]]
+      iex> ComfortablyEnum.chunk([1,2,3,4], 2, 2)
+      [[1, 2], [3, 4]]
+      iex> ComfortablyEnum.chunk([1,2,3], 2, 1)
+      [[1, 2], [2, 3]]
+      iex> ComfortablyEnum.chunk([1,2,3,4,5], 3, 3)
+      [[1, 2, 3]]
+      iex> ComfortablyEnum.chunk([1,2,3,4,5], 3, 3, [])
+      [[1, 2, 3], [4, 5]]
+      iex> ComfortablyEnum.chunk([1,2,3], 4)
+      []
+      iex> ComfortablyEnum.chunk([1,2,3], 4, 4, [])
+      [[1,2,3]]
+      iex> ComfortablyEnum.chunk([1,2,3], 2, 2, [4])
+      [[1, 2], [3, 4]]
+
+  """
+  def chunk(list, count, step \\ nil, leftover \\ nil) when count > 0 do
+    chunk(list, count(list), count, step || count, leftover)
+  end
+  def chunk([], _list_size, _count, _step, _leftover), do: []
+  def chunk(_list, list_size, count, _step, nil) when list_size < count, do: []
+  def chunk(list, list_size, count, _step, leftover) when list_size < count do
+    [take(list ++ leftover, count)]
+  end
+  def chunk(list, list_size, count, step, leftover) do
+    [take(list, count)] ++ chunk(drop(list, step), list_size - step, count, step, leftover)
+  end
+
+  @doc """
   count - count the things
 
       iex> ComfortablyEnum.count([])
