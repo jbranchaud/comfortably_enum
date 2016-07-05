@@ -57,6 +57,13 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.concat([[], []]) == []
   end
 
+  test "concat/2" do
+    assert ComfortablyEnum.concat([1,2,3], [3,4,5]) == [1, 2, 3, 3, 4, 5]
+    assert ComfortablyEnum.concat([], [2,3]) == [2, 3]
+    assert ComfortablyEnum.concat([1,2], []) == [1, 2]
+    assert ComfortablyEnum.concat([], []) == []
+  end
+
   test "count/1" do
     assert ComfortablyEnum.count([]) == 0
     assert ComfortablyEnum.count([1,2,3,4,5]) == 5
