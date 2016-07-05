@@ -84,6 +84,19 @@ defmodule ComfortablyEnum do
   end
 
   @doc """
+  concat - combine a list of lists into a single list
+
+      iex> ComfortablyEnum.concat([[1,2,3], [4,5,6]])
+      [1, 2, 3, 4, 5, 6]
+      iex> ComfortablyEnum.concat([[1], [2], [3]])
+      [1, 2, 3]
+      iex> ComfortablyEnum.concat([[1, [2]], [[3], 4]])
+      [1, [2], [3], 4]
+
+  """
+  def concat(list), do: reduce(list, [], &(&2 ++ &1))
+
+  @doc """
   count - count the things
 
       iex> ComfortablyEnum.count([])

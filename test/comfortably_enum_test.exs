@@ -49,6 +49,14 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.chunk([1,2,3,4], 3, 1, [5,6]) == [[1, 2, 3], [2, 3, 4], [3, 4, 5]]
   end
 
+  test "concat/1" do
+    assert ComfortablyEnum.concat([[1,2,3], [4,5,6]]) == [1, 2, 3, 4, 5, 6]
+    assert ComfortablyEnum.concat([[1], [2], [3]]) == [1, 2, 3]
+    assert ComfortablyEnum.concat([[1, [2]], [[3], 4]]) == [1, [2], [3], 4]
+    assert ComfortablyEnum.concat([]) == []
+    assert ComfortablyEnum.concat([[], []]) == []
+  end
+
   test "count/1" do
     assert ComfortablyEnum.count([]) == 0
     assert ComfortablyEnum.count([1,2,3,4,5]) == 5
