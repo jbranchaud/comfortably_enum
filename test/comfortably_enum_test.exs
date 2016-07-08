@@ -32,7 +32,7 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.chunk([1,2,3,4], 2) == [[1, 2], [3, 4]]
     assert ComfortablyEnum.chunk([1,2,3], 4) == []
     assert_raise FunctionClauseError, ~r/^no function clause matching/, fn ->
-      ComfortablyEnum.chunk([1,2,3], 0) == []
+      ComfortablyEnum.chunk([1,2,3], 0)
     end
   end
 
