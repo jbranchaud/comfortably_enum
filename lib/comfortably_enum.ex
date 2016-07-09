@@ -150,9 +150,13 @@ defmodule ComfortablyEnum do
     ["1","2","3"]
 
   """
-  def map(list, func \\ fn(x) -> x end)
-  def map([], _func), do: []
-  def map([head | tail], func), do: [func.(head) | map(tail, func)]
+  def map(list, func \\ fn(x) -> x end), do: do_map(list, func, [])
+
+  defp do_map([], _func, acc), do: :lists.reverse(acc)
+  defp do_map([head | tail], func, acc) do
+    acc = [func.(head) | acc]
+    do_map(tail, func, acc)
+  end
 
   @doc """
   reduce - accumulate the result of doing a thing to the things
