@@ -174,9 +174,18 @@ defmodule ComfortablyEnum do
       %{1 => 1, 2 => 4, 3 => 9}
   """
   def reduce([], _func), do: raise ComfortablyEnum.EmptyError
-  def reduce([head | tail], func), do: reduce(tail, head, func)
-  def reduce([], acc, _func), do: acc
-  def reduce([head | tail], acc, func), do: reduce(tail, func.(head, acc), func)
+  def reduce([head | tail], func) when is_function(func) do
+    do_reduce(tail, head, func)
+  end
+  def reduce(list, acc, func) when is_function(func) do
+    do_reduce(list, acc, func)
+  end
+
+  defp do_reduce([], acc, _func), do: acc
+  defp do_reduce([head | tail], acc, func) do
+    acc = func.(head, acc)
+    reduce(tail, acc, func)
+  end
 
   @doc """
   take - take some things from the list
