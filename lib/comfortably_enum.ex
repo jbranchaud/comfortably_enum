@@ -206,9 +206,14 @@ defmodule ComfortablyEnum do
       [1, 2, 3]
 
   """
-  def take([], _n), do: []
-  def take(_list, n) when n <= 0, do: []
-  def take([head | tail], n), do: [head | take(tail, n - 1)]
+  def take(list, n), do: do_take(list, n, [])
+
+  defp do_take([], _n, acc), do: :lists.reverse(acc)
+  defp do_take(_list, n, acc) when n <= 0, do: :lists.reverse(acc)
+  defp do_take([head | tail], n, acc) do
+    acc = [head | acc]
+    do_take(tail, n - 1, acc)
+  end
 
   defmodule EmptyError do
     defexception message: "empty error"
