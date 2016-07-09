@@ -159,7 +159,7 @@ defmodule ComfortablyEnum do
   end
 
   @doc """
-  reduce - accumulate the result of doing a thing to the things
+  reduce/2 - accumulate the result of doing a thing to the things
 
       iex> ComfortablyEnum.reduce([1,2,3], fn(x, acc) -> acc + x end)
       6
@@ -168,17 +168,11 @@ defmodule ComfortablyEnum do
       iex> appender = fn(x, acc) -> acc <> " - " <> x end
       iex> ComfortablyEnum.reduce(["one", "two", "three"], appender)
       "one - two - three"
-      iex> ComfortablyEnum.reduce([], 1, fn(x, acc) -> acc + x end)
-      1
-      iex> ComfortablyEnum.reduce([1,2,3], %{}, fn(x, acc) -> Map.put(acc, x, x * x) end)
-      %{1 => 1, 2 => 4, 3 => 9}
+
   """
   def reduce([], _func), do: raise ComfortablyEnum.EmptyError
   def reduce([head | tail], func) when is_function(func) do
     do_reduce(tail, head, func)
-  end
-  def reduce(list, acc, func) when is_function(func) do
-    do_reduce(list, acc, func)
   end
 
   defp do_reduce([], acc, _func), do: acc
@@ -186,6 +180,20 @@ defmodule ComfortablyEnum do
     acc = func.(head, acc)
     reduce(tail, acc, func)
   end
+
+  @doc """
+  reduce/3
+
+      iex> ComfortablyEnum.reduce([], 1, fn(x, acc) -> acc + x end)
+      1
+      iex> ComfortablyEnum.reduce([1,2,3], %{}, fn(x, acc) -> Map.put(acc, x, x * x) end)
+      %{1 => 1, 2 => 4, 3 => 9}
+
+  """
+  def reduce(list, acc, func) when is_function(func) do
+    do_reduce(list, acc, func)
+  end
+
 
   @doc """
   take - take some things from the list
