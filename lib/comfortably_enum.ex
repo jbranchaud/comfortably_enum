@@ -110,7 +110,7 @@ defmodule ComfortablyEnum do
   def concat(left, right), do: left ++ right
 
   @doc """
-  count - count the things
+  count/1 - count the things
 
       iex> ComfortablyEnum.count([])
       0
@@ -118,10 +118,27 @@ defmodule ComfortablyEnum do
       5
 
   """
-  def count(list), do: count(list, 0)
-  defp count([], count), do: count
-  defp count([_head | tail], count) do
-    count(tail, count + 1)
+  def count(list), do: do_count(list, 0)
+
+  defp do_count([], total) when is_number(total), do: total
+  defp do_count([_head | tail], total) when is_number(total), do: do_count(tail, total + 1)
+
+  @doc """
+  count/2 - count the things that are truthy to the function
+
+      iex> ComfortablyEnum.count([1,2,3], &(&1 > 0))
+      3
+      iex> ComfortablyEnum.count([1,2,3], &(rem(&1, 2) == 0))
+      1
+      iex> ComfortablyEnum.count([nil, false, true], &(!!&1))
+      1
+
+  """
+  def count(list, func) when is_function(func, 1), do: do_count(list, func, 0)
+
+  defp do_count([], _func, total), do: total
+  defp do_count([head | tail], func, total) do
+    if func.(head) do do_count(tail, func, total + 1); else do_count(tail, func, total) end
   end
 
   @doc """

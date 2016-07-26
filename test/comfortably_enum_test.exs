@@ -69,6 +69,13 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.count([1,2,3,4,5]) == 5
   end
 
+  test "count/2" do
+    assert ComfortablyEnum.count([1,2,3], &(&1 > 0)) == 3
+    assert ComfortablyEnum.count([1,2,3], &(rem(&1, 2) == 0)) == 1
+    assert ComfortablyEnum.count([nil, false, true], &(!!&1)) == 1
+    assert ComfortablyEnum.count([], &(&1 > 2)) == 0
+  end
+
   test "drop/2" do
     assert ComfortablyEnum.drop([1,2,3], 1) == [2, 3]
     assert ComfortablyEnum.drop([1,2,3], 2) == [3]
