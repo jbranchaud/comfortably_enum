@@ -142,6 +142,27 @@ defmodule ComfortablyEnum do
   end
 
   @doc """
+  dedup/1 - remove all subsequently duplicate things
+
+      iex> ComfortablyEnum.dedup([1,2,2,3])
+      [1,2,3]
+      iex> ComfortablyEnum.dedup([:one, :one, 2, 3, 3, 2, :one])
+      [:one, 2, 3, 2, :one]
+
+  """
+  def dedup([]), do: []
+  def dedup([head | tail]), do: do_dedup(tail, [head], head)
+
+  defp do_dedup([], acc, _prev), do: :lists.reverse(acc)
+  defp do_dedup([head | tail], acc,  prev) do
+    acc =
+      unless head === prev do
+        [head | acc]
+      end || acc
+    do_dedup(tail, acc, head)
+  end
+
+  @doc """
   drop - drop some things from the list
 
       iex> ComfortablyEnum.drop([1,2,3], 1)

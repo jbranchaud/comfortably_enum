@@ -76,6 +76,14 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.count([], &(&1 > 2)) == 0
   end
 
+  test "dedup/1" do
+    assert ComfortablyEnum.dedup([1,2,2,3]) == [1,2,3]
+    assert ComfortablyEnum.dedup([:one, :one, 2, 3, 3, 2, :one]) == [:one, 2, 3, 2, :one]
+    assert ComfortablyEnum.dedup([]) == []
+    assert ComfortablyEnum.dedup([1]) == [1]
+    assert ComfortablyEnum.dedup([1, 1, 2, 2.0, :three, :"three"]) == [1, 2, 2.0, :three]
+  end
+
   test "drop/2" do
     assert ComfortablyEnum.drop([1,2,3], 1) == [2, 3]
     assert ComfortablyEnum.drop([1,2,3], 2) == [3]
