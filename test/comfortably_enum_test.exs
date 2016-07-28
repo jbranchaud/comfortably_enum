@@ -92,6 +92,12 @@ defmodule ComfortablyEnumTest do
     assert ComfortablyEnum.drop([1,2,3], -1) == [1,2,3]
   end
 
+  test "index_of/2" do
+    assert ComfortablyEnum.index_of([1,2,3], 3) == 2
+    assert ComfortablyEnum.index_of([:a,:b,:c], :a) == 0
+    assert ComfortablyEnum.index_of([], 0) == -1
+  end
+
   test "map/2" do
     assert ComfortablyEnum.map([]) == []
     assert ComfortablyEnum.map([], fn(x) -> x * x end) == []

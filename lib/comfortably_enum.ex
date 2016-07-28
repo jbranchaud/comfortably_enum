@@ -178,6 +178,27 @@ defmodule ComfortablyEnum do
   def drop([_head | tail], n), do: drop(tail, n - 1)
 
   @doc """
+  index_of - get the index of the thing
+
+      iex> ComfortablyEnum.index_of([1,2,3], 3)
+      2
+      iex> ComfortablyEnum.index_of([:a,:b,:c], :a)
+      0
+      iex> ComfortablyEnum.index_of([], 0)
+      -1
+
+  """
+  def index_of(list, item), do: do_index_of(list, item, 0)
+
+  defp do_index_of([], _item, _curr_index), do: -1
+  defp do_index_of([head | _tail], item, curr_index) when head == item do
+    curr_index
+  end
+  defp do_index_of([_head | tail], item, curr_index) do
+    do_index_of(tail, item, curr_index + 1)
+  end
+
+  @doc """
   map - do a thing to all the things
 
     iex> ComfortablyEnum.map([1,2,3])
